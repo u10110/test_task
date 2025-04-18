@@ -5,7 +5,7 @@ out/
 
 ### Eclipse ###
 .apt_generated
-.classpath
+.class=\------
 .factorypath
 .project
 .settings
@@ -28,3 +28,4 @@ bin/
 ### Mac OS ###
 .DS_Store
 /.idea/
+/node_modules/
