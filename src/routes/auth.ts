@@ -20,15 +20,6 @@ export const authRouter = Router();
 
 /**
  * @swagger
- * tags:
- *   - name: Login
- *     description: Login
- *   - name: Pro
- *     description: Accounts
- */
-
-/**
- * @swagger
  * /api/login:
  *   get:
  *     description: Login to the application
@@ -50,10 +41,11 @@ export const authRouter = Router();
  *         example: password
  *     responses:
  *       200:
- *         description: login
+ *         description: token
  *         schema:
- *           type: object
- *           $ref: '#/definitions/Login'
+ *           type: string
+ *       400:
+ *         description: Invalid username/password supplied
  */
 
 authRouter.get('/login', async <Send>(req: Request, res: Response): Promise<void> => {

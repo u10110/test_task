@@ -18,9 +18,18 @@ const swaggerOptions = {
                 email: 'u10110.uu@gmail.com'
             },
         },
+        components: {
+            securitySchemes: {
+                api_key: {
+                    type: "apiKey",
+                    name: "token",
+                    in: "header"
+                },
+            }
+        },
         servers: [
             {
-                url: `http://localhost:8080`,
+                url: 'http://localhost:8080',
                 description: 'Development server'
             },
             {

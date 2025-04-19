@@ -4,7 +4,64 @@ export const productsRouter = Router();
 import {Products} from '@prisma/client'
 
 
-productsRouter.post('/', async <Send>(req: Request, res: Response): Promise<void> => {
+/**
+ * @swagger
+ * definitions:
+ *   Product:
+ *     required:
+ *       - title
+ *       - price
+ *     properties:
+ *       id:
+ *          type: number
+ *       title:
+ *          type: string
+ *       description:
+ *          type: string
+ *       user_id:
+ *          type: number
+ *       price:
+ *          type: number
+ *       cont:
+ *          type: number
+ *
+ */
+
+/**
+ * @swagger
+ * /api/products:
+ *   get:
+ *     security:
+ *       - api_key: string
+ *     description: List of products with search and paginate
+ *     tags: [Products]
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: searchText
+ *         description: Text search in Product
+ *         in: query
+ *         required: false
+ *         type: string
+ *         example: admin
+ *       - name: searchPrice
+ *         description: Prices range
+ *         in: query
+ *         required: false
+ *         type: array
+ *         items:
+ *              type: number
+ *         default: [0,10000000]
+ *     responses:
+ *       200:
+ *         description: list of found products
+ *         schema:
+ *           type: array
+ *           items:
+ *              $ref: '#/definitions/Product'
+ */
+
+productsRouter.get('/', async <Send>(req: Request, res: Response): Promise<void> => {
 
     const { search, price } = req.query
     const products: Products[]  = await productsList({
@@ -16,6 +73,34 @@ productsRouter.post('/', async <Send>(req: Request, res: Response): Promise<void
     res.json(products);
 });
 
+/**
+ * @swagger
+ * /api/products/create:
+ *   post:
+ *     security:
+ *       - api_key: string
+ *     description: Create product
+ *     tags: [Products]
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         description: Product object
+ *         schema:
+ *            $ref: '#/definitions/Product'
+ *     responses:
+ *       200:
+ *         description: Created Product object
+ *         schema:
+ *           type: object
+ *           $ref: '#/definitions/Product'
+ */
+
+
 productsRouter.post('/create', async <Send>(req: Request, res: Response): Promise<void> => {
 
     const data: Products = req.body
@@ -23,6 +108,31 @@ productsRouter.post('/create', async <Send>(req: Request, res: Response): Promis
 
     res.json(products);
 });
+
+/**
+ * @swagger
+ * /api/product/{id}:
+ *   get:
+ *     security:
+ *       - api_key: string
+ *     description: Get Product info
+ *     tags: [Products]
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         description:  Product id
+ *         in: query
+ *         required: true
+ *         type: number
+ *     responses:
+ *       200:
+ *         description: list of found products
+ *         schema:
+ *           type: array
+ *           items:
+ *              $ref: '#/definitions/Product'
+ */
 
 
 productsRouter.get('/product/:id', async <Send>(req: Request, res: Response): Promise<void> => {
@@ -33,6 +143,34 @@ productsRouter.get('/product/:id', async <Send>(req: Request, res: Response): Pr
     res.json(product);
 });
 
+
+/**
+ * @swagger
+ * /api/product/{id}:
+ *   post:
+ *     security:
+ *       - api_key: string
+ *     description: Update product
+ *     tags: [Products]
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         description: Product object
+ *         schema:
+ *            $ref: '#/definitions/Product'
+ *     responses:
+ *       200:
+ *         description: Updated Product object
+ *         schema:
+ *           type: object
+ *           $ref: '#/definitions/Product'
+ */
+
 productsRouter.post('/product/:id', async <Send>(req: Request, res: Response): Promise<void> => {
 
     const { id } =  req.params
@@ -41,6 +179,30 @@ productsRouter.post('/product/:id', async <Send>(req: Request, res: Response): P
 
     res.json(product);
 });
+
+
+/**
+ * @swagger
+ * /api/product/delete/{id}:
+ *   get:
+ *     security:
+ *       - api_key: string
+ *     description: Delete Product
+ *     tags: [Products]
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         description:  Product id
+ *         in: query
+ *         required: true
+ *         type: number
+ *     responses:
+ *       200:
+ *         description: Product is deleted
+ *
+ */
+
 
 
 productsRouter.get('/delete/:id', async <Send>(req: Request, res: Response): Promise<void> => {

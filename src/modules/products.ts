@@ -15,8 +15,8 @@ export const productsList = async (params: ProductListParams): Promise<Products[
                 contains: description
             },
             price: {
-                gt: priceGt,
-                lte: priceLte,
+                gt: Number(priceGt),
+                lte: Number(priceLte)
             }
         }
     });

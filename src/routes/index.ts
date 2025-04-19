@@ -6,6 +6,17 @@ import {Request, Response } from 'express';
 
 export const routes = express.Router();
 
+
+/**
+ * @swagger
+ * tags:
+ *   - name: Login
+ *     description: Login
+ *   - name: Products
+ *     description: Products CRUD and list
+ */
+
+
 routes.get('/', (req: Request, res: Response): void => {
     res.status(200).json({ message: 'Index' });
 });
