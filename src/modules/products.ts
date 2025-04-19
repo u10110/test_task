@@ -1,4 +1,6 @@
-import {PrismaClient, User, Products} from '@prisma/client'
+import {PrismaClient, Products} from '@prisma/client'
+import {ProductListParams} from '../interfaces/modules.interfaces';
+
 const prisma = new PrismaClient()
 
 

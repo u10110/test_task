@@ -1,9 +1,17 @@
 {
   "main": "dist/app.js",
+  "version": "0.0.1",
   "scripts": {
-    "build": "ts-node src/swagger.ts && tsc",
+    "build": "tsc",
     "start": "node .",
-    "start:dev": "ts-node src/swagger.ts && tsc && npm run start"
+    "start:dev": "nodemon"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src"
+    ],
+    "ext": "ts",
+    "exec": "ts-node src/app.ts && npm run start"
   },
   "dependencies": {
     "@prisma/client": "^6.6.0",
@@ -12,16 +20,17 @@
     "bcryptjs": "^3.0.2",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "swagger-autogen": "^2.23.7",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1",
-    "ts-node": "^10.9.2"
+    "swagger-ui-dist": "^5.21.0",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@types/node": "^22.14.1",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
+    "nodemon": "^3.1.9",
     "prisma": "^6.6.0",
+    "ts-node": "^10.9.2",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3"
   }

@@ -1,10 +1,10 @@
-import {Router, Request, Response, NextFunction } from 'express';
+import {Router, Request, Response } from 'express';
 import {getProduct, productCreate, productDelete, productsList, productUpdate} from "../modules/products";
-export const authRouter = Router();
+export const productsRouter = Router();
 import {Products} from '@prisma/client'
 
 
-authRouter.get('/', async <Send>(req: Request, res: Response): Promise<void> => {
+productsRouter.post('/', async <Send>(req: Request, res: Response): Promise<void> => {
 
     const { search, price } = req.query
     const products: Products[]  = await productsList({
@@ -16,7 +16,7 @@ authRouter.get('/', async <Send>(req: Request, res: Response): Promise<void> => 
     res.json(products);
 });
 
-authRouter.post('/product/create', async <Send>(req: Request, res: Response): Promise<void> => {
+productsRouter.post('/create', async <Send>(req: Request, res: Response): Promise<void> => {
 
     const data: Products = req.body
     const products: Products  = await productCreate(data)
@@ -25,7 +25,7 @@ authRouter.post('/product/create', async <Send>(req: Request, res: Response): Pr
 });
 
 
-authRouter.get('/product/:id', async <Send>(req: Request, res: Response): Promise<void> => {
+productsRouter.get('/product/:id', async <Send>(req: Request, res: Response): Promise<void> => {
 
     const { id } =  req.params
     const product: Products  = await getProduct(Number(id))
@@ -33,7 +33,7 @@ authRouter.get('/product/:id', async <Send>(req: Request, res: Response): Promis
     res.json(product);
 });
 
-authRouter.post('/product/:id', async <Send>(req: Request, res: Response): Promise<void> => {
+productsRouter.post('/product/:id', async <Send>(req: Request, res: Response): Promise<void> => {
 
     const { id } =  req.params
     req.body
@@ -43,10 +43,7 @@ authRouter.post('/product/:id', async <Send>(req: Request, res: Response): Promi
 });
 
 
-
-
-
-authRouter.get('/product/delete/:id', async <Send>(req: Request, res: Response): Promise<void> => {
+productsRouter.get('/delete/:id', async <Send>(req: Request, res: Response): Promise<void> => {
 
     const { id } =  req.params
     const  result  = await productDelete(Number(id));

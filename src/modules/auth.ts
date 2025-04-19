@@ -11,9 +11,11 @@ export const login = async (username: string, password: string): Promise<boolean
             username
         }
     });
-    const pass = await bcrypt.compare(password, user.password)
-
-    return user && pass
+    if(user) {
+        const pass = await bcrypt.compare(password, user.password)
+        return user && pass
+    }
+    return false;
 }
 
 export const verifyToken = (token: string): JwtPayload | string => {
