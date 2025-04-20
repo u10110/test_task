@@ -1,5 +1,5 @@
 import {Router, Request, Response, NextFunction } from 'express';
-import {login, createToken, verifyToken} from "../modules/auth";
+import {login, createToken} from "../modules/auth";
 export const authRouter = Router();
 
 /**
@@ -51,26 +51,29 @@ export const authRouter = Router();
 authRouter.get('/login', async <Send>(req: Request, res: Response): Promise<void> => {
 
     res.setHeader('Content-Type', 'application/json')
-    const username: string = req.query.username.toString()
-    const password: string = req.query.password.toString()
+    try{
+        const username: string = req.query.username.toString()
+        const password: string = req.query.password.toString()
 
-    if (!await login(username, password)) {
-        res.status(400).json({ message: 'Invalid credentials' });
-    } else {
-        const token = createToken(username);
-        res.json({ token });
+        if (!await login(username, password)) {
+            res.status(400).json({ message: 'Invalid credentials' });
+        } else {
+            const token = createToken(username);
+            res.json({ token });
+        }
+    } catch (e) {
+        res.status(500).json({ message: 'Invalid input' });
     }
+
 });
 
 
 export const checkAuthMiddleWhere =  (req: Request, res: Response, next: NextFunction): void => {
     const token = req.headers['authorization'];
-
     if (!token) {
         res.status(401).json({ message: 'No token provided' });
     } else {
         try {
-            res.json({ message: 'Protected route', user: verifyToken(token) });
             next();
         } catch (error) {
             res.status(401).json({ message: 'Invalid token' });

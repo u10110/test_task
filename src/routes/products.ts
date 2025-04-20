@@ -18,11 +18,9 @@ import {Products} from '@prisma/client'
  *          type: string
  *       description:
  *          type: string
- *       user_id:
- *          type: number
  *       price:
  *          type: number
- *       cont:
+ *       count:
  *          type: number
  *
  */
@@ -85,13 +83,12 @@ productsRouter.get('/', async <Send>(req: Request, res: Response): Promise<void>
  *       - application/json
  *     produces:
  *       - application/json
- *     parameters:
- *       - name: body
- *         in: body
+ *     requestBody:
  *         required: true
- *         description: Product object
- *         schema:
- *            $ref: '#/definitions/Product'
+ *         content:
+ *           application/json:
+ *             schema:
+ *              $ref: '#/definitions/Product'
  *     responses:
  *       200:
  *         description: Created Product object
@@ -102,11 +99,16 @@ productsRouter.get('/', async <Send>(req: Request, res: Response): Promise<void>
 
 
 productsRouter.post('/create', async <Send>(req: Request, res: Response): Promise<void> => {
-
-    const data: Products = req.body
-    const products: Products  = await productCreate(data)
-
-    res.json(products);
+    res.setHeader('Content-Type', 'application/json')
+    try{
+        const data: Products = req.body
+        const product: Products  = await productCreate(data)
+        console.log(product)
+        res.json(product);
+    } catch (e) {
+        console.error(e)
+        res.status(500).json({ message: 'Invalid request body' });
+    }
 });
 
 /**
@@ -162,13 +164,13 @@ productsRouter.get('/product/:id', async <Send>(req: Request, res: Response): Pr
  *         required: true
  *         description: Product object
  *         schema:
- *            $ref: '#/definitions/Product'
+ *            $ref: '#/definitions/Products'
  *     responses:
  *       200:
  *         description: Updated Product object
  *         schema:
  *           type: object
- *           $ref: '#/definitions/Product'
+ *           $ref: '#/definitions/Products'
  */
 
 productsRouter.post('/product/:id', async <Send>(req: Request, res: Response): Promise<void> => {

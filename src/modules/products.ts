@@ -1,6 +1,6 @@
 import {PrismaClient, Products} from '@prisma/client'
 import {ProductListParams} from '../interfaces/modules.interfaces';
-
+import jwt, {JwtPayload} from 'jsonwebtoken';
 const prisma = new PrismaClient()
 
 
@@ -23,8 +23,10 @@ export const productsList = async (params: ProductListParams): Promise<Products[
 }
 
 export const productCreate = async (params: Products): Promise<Products> => {
+    const {id, ...data} = params
+    console.log(data)
     return prisma.products.create({
-        data: params
+        data
     });
 }
 
