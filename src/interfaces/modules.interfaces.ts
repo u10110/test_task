@@ -2,5 +2,5 @@
 export interface ProductListParams {
     title: string,
     description: string,
-    price: string[]
+    price: number[]
 }
