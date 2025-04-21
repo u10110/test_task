@@ -3,9 +3,10 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import {routes} from "./routes";
 import { version } from '../package.json';
+import process from "node:process";
 
 const app = express();
-
+const SERVER_PORT = process.env.SERVER_PORT
 const swaggerOptions = {
     definition: {
         openapi: '3.0.3',
@@ -29,7 +30,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: 'http://localhost:8080',
+                url: 'http://localhost:'  + SERVER_PORT,
                 description: 'Development server'
             },
             {
@@ -46,8 +47,8 @@ routes.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use('/', routes);
 
-app.listen(8080, () => {
-    console.log('Server started at port 8080');
+app.listen(SERVER_PORT, () => {
+    console.log('Server started at port ' + SERVER_PORT);
 });
 
 module.exports.app = app;
